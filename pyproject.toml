@@ -1,0 +1,33 @@
+[project]
+name = "rag-bbva"
+version = "0.1.0"
+description = "Asistente conversacional RAG sobre el sitio de BBVA Colombia"
+readme = "README.md"
+requires-python = ">=3.11"
+
+dependencies = [
+    "langgraph>=0.2.0",
+    "langgraph-checkpoint-sqlite>=2.0.0",
+    "langchain-google-genai>=2.0.0",
+    "langchain-core>=0.3.0",
+    "sentence-transformers>=3.0.0",
+    "chromadb>=0.5.0",
+    "requests>=2.32.0",
+    "beautifulsoup4>=4.12.0",
+    "lxml>=5.0.0",
+    "langchain-text-splitters>=0.3.0",
+    "gradio>=4.44.0",
+    "pydantic-settings>=2.4.0",
+]
+
+[project.optional-dependencies]
+playwright = [
+    "playwright>=1.47.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/app"]
