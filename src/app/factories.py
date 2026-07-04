@@ -51,3 +51,15 @@ def crear_vectorstore(settings: Settings):
     from app.rag.vectorstore import VectorStore
 
     return VectorStore(ruta=settings.chroma_dir, coleccion=settings.chroma_collection)
+
+
+def crear_llm(settings: Settings):
+    # Importamos aqui dentro para no cargar el cliente de Gemini si no se usa.
+    from langchain_google_genai import ChatGoogleGenerativeAI
+
+    return ChatGoogleGenerativeAI(
+        model=settings.gemini_model,
+        temperature=settings.llm_temperature,
+        google_api_key=settings.gemini_api_key,
+        max_retries=2,  # reintentos automaticos ante fallos transitorios
+    )

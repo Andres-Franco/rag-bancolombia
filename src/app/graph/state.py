@@ -17,9 +17,6 @@ from typing import Annotated, TypedDict
 from langchain_core.messages import BaseMessage
 from langgraph.graph.message import add_messages
 
-# Importamos el tipo del fragmento recuperado para tipar el contexto.
-from app.rag.vectorstore import Recuperado
-
 
 class EstadoConversacion(TypedDict):
     # La pregunta del usuario en este turno.
@@ -30,9 +27,11 @@ class EstadoConversacion(TypedDict):
     # sobrescribir. Asi el grafo recuerda lo que se dijo antes.
     messages: Annotated[list[BaseMessage], add_messages]
 
-    # Los fragmentos recuperados de ChromaDB para esta pregunta. Se reemplazan
-    # en cada turno (el contexto es especifico de la pregunta actual).
-    contexto: list[Recuperado]
+    # Los fragmentos recuperados de ChromaDB para esta pregunta, como
+    # diccionarios simples (text, url, title, distance). Usamos dicts en vez de
+    # objetos personalizados para que el checkpointer los serialice sin
+    # problemas. Se reemplazan en cada turno.
+    contexto: list[dict]
 
     # Mensajes ya ensamblados que el nodo generar enviara al LLM (instruccion de
     # sistema + historial reciente + pregunta con contexto). Es un campo interno
