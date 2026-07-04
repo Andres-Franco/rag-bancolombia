@@ -36,3 +36,18 @@ def crear_scraper(settings: Settings) -> Scraper:
         f"No hay una estrategia de scraping registrada para '{tipo}'. "
         f"Revisa crear_scraper en factories.py."
     )
+
+
+def crear_embedder(settings: Settings):
+    # Importamos aqui dentro para no cargar sentence-transformers (y torch, que
+    # es pesado) salvo cuando de verdad se necesita construir el embedder.
+    from app.rag.embeddings import Embedder
+
+    return Embedder(modelo=settings.embedding_model)
+
+
+def crear_vectorstore(settings: Settings):
+    # Importamos aqui dentro para no cargar chromadb salvo cuando se necesita.
+    from app.rag.vectorstore import VectorStore
+
+    return VectorStore(ruta=settings.chroma_dir, coleccion=settings.chroma_collection)
