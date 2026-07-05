@@ -1,0 +1,27 @@
+# El entorno virtual local NO debe entrar a la imagen: depende de la plataforma
+# y se recrea dentro del contenedor. Incluirlo la haria enorme y podria romperla.
+.venv/
+
+# Control de versiones e historia.
+.git/
+.gitignore
+
+# Caches de Python.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Secretos: el .env se carga via env_file en compose, no se copia a la imagen.
+.env
+
+# Datos generados: se montan como volumen, no se hornean en la imagen.
+data/raw/
+data/clean/
+data/chroma/
+data/app.db
+data/hf_cache/
+
+# Editor / SO.
+.DS_Store
+.idea/
+.vscode/    

@@ -1,0 +1,22 @@
+# Levanta el asistente RAG con un solo comando: docker compose up
+#
+# Un unico servicio: la aplicacion. ChromaDB corre embebido (en disco, dentro
+# del mismo proceso) y SQLite es un archivo, asi que no hacen falta contenedores
+# separados para la base vectorial ni el historial.
+
+services:
+  app:
+    build: .
+    container_name: rag_asistente
+    ports:
+      # host:contenedor. Gradio escucha en 7860 dentro del contenedor.
+      - "7860:7860"
+    env_file:
+      # Carga las variables del .env (incluida GEMINI_API_KEY).
+      - .env
+    volumes:
+      # Persistimos la carpeta data fuera del contenedor: asi los datos
+      # scrapeados, el indice de ChromaDB, el SQLite y el cache del modelo
+      # sobreviven a reinicios y se comparten entre la ingesta y la app.
+      - ./data:/app/data
+    restart: unless-stopped
